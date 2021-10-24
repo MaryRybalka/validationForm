@@ -12,23 +12,27 @@
         Обратная связь
     </h1>
     <fieldset class="feedback-form">
-        <div class="feedback-form-item little">
-            <label for="name" class="label">Имя</label>
-            <input type="text" id="name" class="field">
+        <div class="feedback-form__item little">
+            <label for="name" class="label required">Имя</label>
+            <input required type="text" id="name" class="field">
+            <span class ="label label-incorrect" id="incorrect-name"></span> <!--Проверьте ведённое имя-->
         </div>
-        <div class="feedback-form-item little">
+        <div class="feedback-form__item little">
             <label for="phone" class="label">Телефон</label>
             <input type="tel" id="phone" class="field" inputmode="tel">
+            <span class="label label-incorrect" id="incorrect-phone"></span><!--Проверьте ведённый номер телефона-->
         </div>
-        <div class="feedback-form-item little">
-            <label for="mail" class="label">Эл.почта</label>
-            <input type="email" id="mail" class="field" inputmode="email">
+        <div class="feedback-form__item little">
+            <label for="email" class="label">Эл.почта</label>
+            <input type="email" id="email" class="field" inputmode="email">
+            <span class="label label-incorrect" id="incorrect-email"></span><!--Проверьте ведённый email-->
         </div>
-        <div class="feedback-form-item big">
-            <label for="message" class="label">Сообщение</label>
-            <textarea id="message" class="field"></textarea>
+        <div class="feedback-form__item big">
+            <label for="message" class="label required">Сообщение</label>
+            <textarea required id="message" class="field"></textarea>
+            <span class="label label-incorrect" id="incorrect-message"></span>
         </div>
-        <div class="bottom">
+        <div class="feedback-form__bottom">
             <p class="privacy-policy">Отправляя форму вы соглашаетесь с
                 <a href="https://cutt.ly/8RbK50j" target="_blank" class="link"> пользовательским соглашением</a> и
                 <a href="https://e-kontur.ru/enquiry/1318/privacy" target="_blank" class="link"> политикой
