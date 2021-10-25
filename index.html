@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Feedback</title>
     <link type="text/css" rel="stylesheet" href="styles/index.css">
     <link rel="shortcut icon" href="#">
 </head>
@@ -15,22 +15,21 @@
         <div class="feedback-form__item little">
             <label for="name" class="label required">Имя</label>
             <input required type="text" id="name" class="field">
-            <span class ="label label-incorrect" id="incorrect-name"></span> <!--Проверьте ведённое имя-->
+            <span class ="label incorrect" id="incorrect-name"></span>
         </div>
         <div class="feedback-form__item little">
             <label for="phone" class="label">Телефон</label>
-            <input type="tel" id="phone" class="field" inputmode="tel">
-            <span class="label label-incorrect" id="incorrect-phone"></span><!--Проверьте ведённый номер телефона-->
+            <input type="tel" id="phone" class="field" inputmode="tel" placeholder="+7 (___) ___-__-__" data-slots="_">
+            <span class="label incorrect" id="incorrect-phone"></span>
         </div>
         <div class="feedback-form__item little">
             <label for="email" class="label">Эл.почта</label>
             <input type="email" id="email" class="field" inputmode="email">
-            <span class="label label-incorrect" id="incorrect-email"></span><!--Проверьте ведённый email-->
+            <span class="label incorrect" id="incorrect-email"></span>
         </div>
         <div class="feedback-form__item big">
             <label for="message" class="label required">Сообщение</label>
             <textarea required id="message" class="field"></textarea>
-            <span class="label label-incorrect" id="incorrect-message"></span>
         </div>
         <div class="feedback-form__bottom">
             <p class="privacy-policy">Отправляя форму вы соглашаетесь с

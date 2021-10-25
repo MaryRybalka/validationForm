@@ -7,6 +7,7 @@
     --submit-button-color: #F9C73B;
     --accessory-text-color: #1C1C1C;
     --error-text-color: #F36363;
+    --modal-background-color: #545454;
     font-family: Roboto, sans-serif;
     font-style: normal;
     font-size: 12px;
@@ -101,7 +102,7 @@ body{
     height: 50px;
     background: var(--submit-button-color);
     border-radius: 5px;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 1.2rem;
     /*font-size: 14px;*/
     margin: 20px;
@@ -128,12 +129,54 @@ body{
     align-items: center;
 }
 
-.label-incorrect{
-    /*font-size: 12px;*/
+.label.incorrect{
     color: var(--error-text-color);
 }
 
 .required:after{
     content:" *";
     color: var(--submit-button-color);
+}
+
+.field.incorrect{
+    border-color: var(--error-text-color);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow: auto;
+    background-color: var(--modal-background-color);
+}
+
+/* Modal Content/Box */
+.modal-content {
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: var(--submit-button-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus,
+.apply-button:hover,
+.apply-button:focus,
+.link:hover,
+.link:focus,
+.field:hover,
+.field:focus{
+    cursor: pointer;
+} {
+    cursor: pointer;
 }
