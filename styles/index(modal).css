@@ -71,20 +71,17 @@ body{
 
 .little{
     height: 65px;
-    /*min-width: 240px;*/
+    min-width: 240px;
     max-width: 47%;
 }
 
 .big{
     height: 165px;
-    max-width: 96%;
-    /*width: 96%;*/
+    width: 96%;
     margin: 2px 6px 0 6px;
 }
 
 .apply-button{
-    display: flex;
-    justify-content: center;
     width: 220px;
     height: 50px;
     background: var(--submit-button-color);
@@ -129,6 +126,38 @@ body{
     border-color: var(--error-text-color);
 }
 
+.modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    height: 100vh;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow: auto;
+    background-color: var(--modal-background-color);
+}
+
+.modal-field{
+    height: 100%;
+}
+
+
+.modal-content {
+    width: 50%;
+}
+
+.close {
+    color: var(--submit-button-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus,
 .apply-button:hover,
 .apply-button:focus,
 .link:hover,
@@ -137,5 +166,55 @@ body{
 .field:focus{
     cursor: pointer;
 } {
+    cursor: pointer;
+}
+
+.top{
+    flex-direction: row;
+    width: 100%;
+}
+
+.modal-item{
+    display: flex;
+    flex-flow: column;
+}
+
+.floating-label:focus {
+    outline: 0;
+    border-bottom: 1px solid #666;
+}
+
+.floating-label {
+    transform-origin: left bottom;
+    transform: translate(0, 2.125rem) scale(1.5);
+    transition: 0.2s ease-out;
+}
+
+.modal-field {
+    transition: all 0.2s;
+    touch-action: manipulation;
+}
+
+.modal-field:placeholder-shown + .floating-label {
+    cursor: text;
+    max-width: 66.66%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform-origin: left bottom;
+    transform: translate(0, 2.125rem) scale(1.5);
+}
+
+::-webkit-input-placeholder {
+    opacity: 0;
+    transition: inherit;
+}
+
+.modal-field:focus::-webkit-input-placeholder {
+    opacity: 1;
+}
+
+.floating-label + .modal-field:focus {
+    transform: translate(0, 0) scale(1);
     cursor: pointer;
 }

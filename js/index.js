@@ -162,18 +162,21 @@ function addPref() {
 
 if (modal_btn != null) {
     modal_btn.addEventListener("click", () => {
-        modal_win.style.display = "block";
+        modal_win.style.display = "flex";
+        modal_btn.style.display = "none";
     })
 }
 
 if (close_btn != null) {
     close_btn.addEventListener("click", () => {
         modal_win.style.display = "none";
+        modal_btn.style.display = "block";
     })
 }
 
 window.onclick = function (event) {
     if (event.target === modal_win) {
         modal_win.style.display = "none";
+        modal_btn.style.display = "block";
     }
 }

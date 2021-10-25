@@ -1,0 +1,14 @@
+:root {
+    --page-background-color: #E5E5E5;
+    --form-background-color: #ffffff;
+    --shadow-color: #a1a1a1;
+    --input-border-color: #A5A5A5;
+    --header-text-color: #000000;
+    --submit-button-color: #F9C73B;
+    --accessory-text-color: #1C1C1C;
+    --error-text-color: #F36363;
+    --modal-background-color: #545454;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-size: 12px;
+}
