@@ -138,12 +138,6 @@ body{
     cursor: pointer;
 }
 
-{
-    cursor: pointer
-;
-}
-
-
 .loader {
     display: none;
     width: 3rem;

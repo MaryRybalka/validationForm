@@ -164,8 +164,6 @@ body{
 .field:hover,
 .field:focus{
     cursor: pointer;
-} {
-    cursor: pointer;
 }
 
 .top{
@@ -210,9 +208,7 @@ body{
     transform: translate(0, -1rem) scale(1);
 }
 
-@media screen and (min-width: 750px) {
-
-}
+/*@media screen and (min-width: 750px) {}*/
 
 .loader {
     display: none;
