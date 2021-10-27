@@ -1,3 +1,9 @@
+const string_for_incorrect_name = "Проверьте ведённое имя";
+const string_for_incorrect_phone = "Проверьте ведённый номер";
+const string_for_incorrect_email = "Проверьте ведённый email";
+const string_for_empty_phone = "Введите номер телефона либо email";
+const string_for_empty_email = "Введите email либо номер телефона";
+
 const id_field_name = "name";
 const id_field_phone = "phone";
 const id_field_email = "email";
@@ -13,92 +19,112 @@ const id_feedback_button = "modal-button"
 
 const class_close = "close";
 const class_incorrect = "incorrect";
-// const class_valid = "valid";
+const class_filled = "filled";
 const class_empty_pair = "empty-pair";
 const class_field = "field";
 
-const name_field = document.getElementById(id_field_name);
-const phone_field = document.getElementById(id_field_phone);
-const email_field = document.getElementById(id_field_email);
-const message_field = document.getElementById(id_field_message);
+const name_field = {
+    field: document.getElementById(id_field_name),
+    label: id_label_incorrect_name,
+    error_str: string_for_incorrect_name
+};
+
+const phone_field = {
+    field: document.getElementById(id_field_phone),
+    label: id_label_incorrect_phone,
+    error_str: string_for_incorrect_phone,
+    empty_str: string_for_empty_phone
+};
+
+const email_field = {
+    field: document.getElementById(id_field_email),
+    label: id_label_incorrect_email,
+    error_str: string_for_incorrect_email,
+    empty_str: string_for_empty_email
+};
+
 const submit_button = document.getElementById(id_button_submit);
 
 const modal_win = document.getElementById(id_modal);
 const modal_btn = document.getElementById(id_feedback_button);
 const close_btn = document.getElementsByClassName(class_close)[0];
 
-const phone_mask = "(___) ___-__-__";
-// phone_field.value = phone_mask;
+const phone_mask = "+7 (___) ___-__-__";
 
-name_field.addEventListener("blur", checkName);
-phone_field.addEventListener("blur", checkPhone);
-email_field.addEventListener("blur", checkEmail);
+name_field.field.addEventListener("blur", checkName);
+phone_field.field.addEventListener("blur", checkPhone);
+email_field.field.addEventListener("blur", checkEmail);
 
-name_field.addEventListener("keyup", removeErrorName);
-phone_field.addEventListener("keyup", removeErrorPhone);
-email_field.addEventListener("keyup", removeErrorEmail);
+name_field.field.addEventListener("keyup", removeErrorName);
+phone_field.field.addEventListener("keyup", removeErrorPhone);
+email_field.field.addEventListener("keyup", removeErrorEmail);
 
-phone_field.addEventListener("click", addPref);
-
-submit_button.addEventListener("click", checkAll);
+submit_button.addEventListener("click", checkAllBeforeSend);
 
 function removeErrorName() {
-    document.getElementById(id_label_incorrect_name).textContent = "";
-    name_field.classList.remove(class_incorrect);
-    // name_field.classList.add(class_valid);
+    document.getElementById(name_field.label).textContent = "";
+    name_field.field.classList.remove(class_incorrect);
+    (name_field.field.value!=="")? name_field.field.classList.add(class_filled):name_field.field.classList.remove(class_filled);
 }
 
 function removeErrorPhone() {
-    applyMask();
-    document.getElementById(id_label_incorrect_phone).textContent = "";
-    phone_field.classList.remove(class_incorrect);
-    // phone_field.classList.add(class_valid);
-    checkEmptyPair(phone_field, email_field, id_label_incorrect_email);
+    let is_not_empty = phone_field.field.value!=="";
+    if (is_not_empty) applyMask();
+    document.getElementById(phone_field.label).textContent = "";
+    phone_field.field.classList.remove(class_incorrect);
+    (is_not_empty)? phone_field.field.classList.add(class_filled):phone_field.field.classList.remove(class_filled);
+    checkEmptyPair(phone_field.field, email_field);
 }
 
 function removeErrorEmail() {
-    document.getElementById(id_label_incorrect_email).textContent = "";
-    email_field.classList.remove(class_incorrect);
-    // email_field.classList.add(class_valid);
-    checkEmptyPair(email_field, phone_field, id_label_incorrect_phone);
+    document.getElementById(email_field.label).textContent = "";
+    email_field.field.classList.remove(class_incorrect);
+    (email_field.field.value!=="")? email_field.field.classList.add(class_filled):email_field.field.classList.remove(class_filled);
+    checkEmptyPair(email_field.field, phone_field);
 }
 
 function checkName() {
-    if (!/^([a-zа-я]+)$/.test(name_field.value)) {
-        document.getElementById(id_label_incorrect_name).textContent = "Проверьте ведённое имя";
-        name_field.classList.add(class_incorrect);
-        // name_field.classList.remove(class_valid);
-    }
+    const re =/^([a-zа-я]+)$/;
+    checkField(name_field, re);
+    // if ((name_field.field.value!=="")&&(!re.test(name_field.field.value))) {
+    //     document.getElementById(name_field.label).textContent =  string_for_incorrect_name;
+    //     name_field.field.classList.add(class_incorrect);
+    // }
 }
 
 function checkPhone() {
     const re = /^(\+7 \([0-9]{3}\) [0-9]{3}\-[0-9]{2}\-[0-9]{2})$/;
-    if (!re.test(phone_field.value)) {
-        document.getElementById(id_label_incorrect_phone).textContent = "Проверьте ведённый номер";
-        phone_field.classList.add(class_incorrect);
-        // name_field.classList.remove(class_valid);
-    }
+    checkField(phone_field, re);
+    // if ((phone_field.field.value!=="")&&(!re.test(phone_field.field.value))) {
+    //     document.getElementById(phone_field.label).textContent = string_for_incorrect_phone;
+    //     phone_field.field.classList.add(class_incorrect);
+    // }
 }
 
 function checkEmail() {
     const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (!re.test(email_field.value)) {
-        document.getElementById(id_label_incorrect_email).textContent = "Проверьте ведённый email";
-        email_field.classList.add(class_incorrect);
-        // email_field.classList.remove(class_valid);
+    checkField(email_field, re);
+    // if ((email_field.field.value!=="")&&(!re.test(email_field.field.value))) {
+    //     document.getElementById(email_field.label).textContent = string_for_incorrect_email;
+    //     email_field.field.classList.add(class_incorrect);
+    // }
+}
+
+function checkField(field_obj, regexp){
+    if ((field_obj.field.value!=="")&&(!regexp.test(field_obj.field.value))) {
+        document.getElementById(field_obj.label).textContent = field_obj.error_str;
+        field_obj.field.classList.add(class_incorrect);
     }
 }
 
-function checkAll(event) {
-    // let is_phone_filled = phone_field.value!==phone_mask;
-
-    if (phone_field.value === "" && email_field.value === "") {
-        document.getElementById(id_label_incorrect_email).textContent = "Введите email либо номер телефона";
-        document.getElementById(id_label_incorrect_phone).textContent = "Введите номер телефона либо email";
-        email_field.classList.add(class_incorrect);
-        email_field.classList.add(class_empty_pair);
-        phone_field.classList.add(class_incorrect);
-        phone_field.classList.add(class_empty_pair);
+function checkAllBeforeSend(event) {
+    if (phone_field.field.value === "" && email_field.field.value === "") {
+        document.getElementById(email_field.label).textContent = email_field.empty_str;
+        document.getElementById(phone_field.label).textContent = phone_field.empty_str;
+        email_field.field.classList.add(class_incorrect);
+        email_field.field.classList.add(class_empty_pair);
+        phone_field.field.classList.add(class_incorrect);
+        phone_field.field.classList.add(class_empty_pair);
         event.preventDefault();
     } else {
         let hasIncorrect = false;
@@ -106,19 +132,18 @@ function checkAll(event) {
 
         for (let filed of listOfFields) {
             hasIncorrect = hasIncorrect || filed.classList.contains(class_incorrect);
-            // hasIncorrect = hasIncorrect||(!filed.classList.contains(class_valid));
         }
         if (hasIncorrect) event.preventDefault();
     }
 }
 
-function checkEmptyPair(changed_field, second_field, id_label_second_filed) {
+function checkEmptyPair(changed_field, second_field_obj) {
     if (changed_field.classList.contains(class_empty_pair)) {
         changed_field.classList.remove(class_empty_pair);
 
-        document.getElementById(id_label_second_filed).textContent = "";
-        second_field.classList.remove(class_incorrect);
-        second_field.classList.remove(class_empty_pair);
+        document.getElementById(second_field_obj.label).textContent = "";
+        second_field_obj.field.classList.remove(class_incorrect);
+        second_field_obj.field.classList.remove(class_empty_pair);
     }
 }
 
@@ -152,22 +177,14 @@ function applyMask() {
     }
 }
 
-function addPref() {
-    phone_field.value = "+7 " + phone_mask;
-    if (phone_field.selectionStart) {
-        phone_field.focus();
-        phone_field.setSelectionRange(4, 4);
-    }
-}
-
-if (modal_btn != null) {
+if (modal_btn) {
     modal_btn.addEventListener("click", () => {
         modal_win.style.display = "flex";
         modal_btn.style.display = "none";
     })
 }
 
-if (close_btn != null) {
+if (close_btn) {
     close_btn.addEventListener("click", () => {
         modal_win.style.display = "none";
         modal_btn.style.display = "block";

@@ -144,7 +144,6 @@ body{
     height: 100%;
 }
 
-
 .modal-content {
     width: 50%;
 }
@@ -179,30 +178,18 @@ body{
     flex-flow: column;
 }
 
-.floating-label:focus {
-    outline: 0;
-    border-bottom: 1px solid #666;
-}
-
 .floating-label {
+    z-index: 3;
     transform-origin: left bottom;
     transform: translate(0, 2.125rem) scale(1.5);
     transition: 0.2s ease-out;
+    position: absolute;
+    margin-top: 0.1rem;
 }
 
 .modal-field {
     transition: all 0.2s;
     touch-action: manipulation;
-}
-
-.modal-field:placeholder-shown + .floating-label {
-    cursor: text;
-    max-width: 66.66%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transform-origin: left bottom;
-    transform: translate(0, 2.125rem) scale(1.5);
 }
 
 ::-webkit-input-placeholder {
@@ -214,7 +201,15 @@ body{
     opacity: 1;
 }
 
-.floating-label + .modal-field:focus {
-    transform: translate(0, 0) scale(1);
+.modal-field:focus + .floating-label {
+    transform: translate(0,-1rem) scale(1);
     cursor: pointer;
+}
+
+.filled + .floating-label{
+    transform: translate(0,-1rem) scale(1);
+}
+
+@media screen and (min-width: 750px){
+
 }
