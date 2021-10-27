@@ -64,54 +64,51 @@ submit_button.addEventListener("click", checkAllBeforeSend);
 function removeErrorName() {
     document.getElementById(name_field.label).textContent = "";
     name_field.field.classList.remove(class_incorrect);
-    (name_field.field.value!=="")? name_field.field.classList.add(class_filled):name_field.field.classList.remove(class_filled);
+    if (name_field.field.value !== "")
+        name_field.field.classList.add(class_filled);
+    else
+        name_field.field.classList.remove(class_filled);
 }
 
 function removeErrorPhone() {
-    let is_not_empty = phone_field.field.value!=="";
+    let is_not_empty = phone_field.field.value !== "" && phone_field.field.value!==phone_mask;
     if (is_not_empty) applyMask();
     document.getElementById(phone_field.label).textContent = "";
     phone_field.field.classList.remove(class_incorrect);
-    (is_not_empty)? phone_field.field.classList.add(class_filled):phone_field.field.classList.remove(class_filled);
+    if (is_not_empty)
+        phone_field.field.classList.add(class_filled);
+    else
+        phone_field.field.classList.remove(class_filled);
     checkEmptyPair(phone_field.field, email_field);
 }
 
 function removeErrorEmail() {
     document.getElementById(email_field.label).textContent = "";
     email_field.field.classList.remove(class_incorrect);
-    (email_field.field.value!=="")? email_field.field.classList.add(class_filled):email_field.field.classList.remove(class_filled);
+    if (email_field.field.value !== "")
+        email_field.field.classList.add(class_filled);
+    else
+        email_field.field.classList.remove(class_filled);
     checkEmptyPair(email_field.field, phone_field);
 }
 
 function checkName() {
-    const re =/^([a-zа-я]+)$/;
+    const re = /^([a-zа-я]+)$/;
     checkField(name_field, re);
-    // if ((name_field.field.value!=="")&&(!re.test(name_field.field.value))) {
-    //     document.getElementById(name_field.label).textContent =  string_for_incorrect_name;
-    //     name_field.field.classList.add(class_incorrect);
-    // }
 }
 
 function checkPhone() {
     const re = /^(\+7 \([0-9]{3}\) [0-9]{3}\-[0-9]{2}\-[0-9]{2})$/;
     checkField(phone_field, re);
-    // if ((phone_field.field.value!=="")&&(!re.test(phone_field.field.value))) {
-    //     document.getElementById(phone_field.label).textContent = string_for_incorrect_phone;
-    //     phone_field.field.classList.add(class_incorrect);
-    // }
 }
 
 function checkEmail() {
     const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     checkField(email_field, re);
-    // if ((email_field.field.value!=="")&&(!re.test(email_field.field.value))) {
-    //     document.getElementById(email_field.label).textContent = string_for_incorrect_email;
-    //     email_field.field.classList.add(class_incorrect);
-    // }
 }
 
-function checkField(field_obj, regexp){
-    if ((field_obj.field.value!=="")&&(!regexp.test(field_obj.field.value))) {
+function checkField(field_obj, regexp) {
+    if ((field_obj.field.value !== "") && ((field_obj.field.value !== phone_mask)) && (!regexp.test(field_obj.field.value))) {
         document.getElementById(field_obj.label).textContent = field_obj.error_str;
         field_obj.field.classList.add(class_incorrect);
     }
@@ -126,7 +123,7 @@ function checkAllBeforeSend(event) {
         phone_field.field.classList.add(class_incorrect);
         phone_field.field.classList.add(class_empty_pair);
         event.preventDefault();
-    } else {
+    } else { //что-то про .reduce
         let hasIncorrect = false;
         const listOfFields = document.getElementsByClassName(class_field);
 
