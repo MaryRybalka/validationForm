@@ -1,9 +1,15 @@
+//string data
 const string_for_incorrect_name = "Проверьте ведённое имя";
 const string_for_incorrect_phone = "Проверьте ведённый номер";
 const string_for_incorrect_email = "Проверьте ведённый email";
 const string_for_empty_phone = "Введите номер телефона либо email";
 const string_for_empty_email = "Введите email либо номер телефона";
+const string_for_required = "Заполните это поле";
 
+//masks
+const phone_mask = "+7 (___) ___-__-__";
+
+//id
 const id_field_name = "name";
 const id_field_phone = "phone";
 const id_field_email = "email";
@@ -11,18 +17,26 @@ const id_field_message = "message";
 const id_label_incorrect_name = "incorrect-name";
 const id_label_incorrect_phone = "incorrect-phone";
 const id_label_incorrect_email = "incorrect-email";
+const id_label_incorrect_message = "incorrect-message";
 const id_button_submit = "apply-button"
-const id_feedback_form = "feedback-form"
+const id_form_feedback = "feedback-form"
+const id_button_close = "close-button"
+const id_loader = "loader"
+const id_result = "result"
 
 const id_modal = "modal-window"
 const id_feedback_button = "modal-button"
 
-const class_close = "close";
+//classes
 const class_incorrect = "incorrect";
 const class_filled = "filled";
 const class_empty_pair = "empty-pair";
+const class_required = "required";
 const class_field = "field";
+const class_success = "success";
+const class_fail = "fail";
 
+//DOM objects
 const name_field = {
     field: document.getElementById(id_field_name),
     label: id_label_incorrect_name,
@@ -43,14 +57,21 @@ const email_field = {
     empty_str: string_for_empty_email
 };
 
+const message_field = {
+    field: document.getElementById(id_field_message),
+    label: id_label_incorrect_message
+}
+
 const submit_button = document.getElementById(id_button_submit);
 
 const modal_win = document.getElementById(id_modal);
 const modal_btn = document.getElementById(id_feedback_button);
-const close_btn = document.getElementsByClassName(class_close)[0];
+const close_btn = document.getElementById(id_button_close);
 
-const phone_mask = "+7 (___) ___-__-__";
+const loader_gif = document.getElementById(id_loader);
+const result_span = document.getElementById(id_result);
 
+//event listeners
 name_field.field.addEventListener("blur", checkName);
 phone_field.field.addEventListener("blur", checkPhone);
 email_field.field.addEventListener("blur", checkEmail);
@@ -58,38 +79,53 @@ email_field.field.addEventListener("blur", checkEmail);
 name_field.field.addEventListener("keyup", removeErrorName);
 phone_field.field.addEventListener("keyup", removeErrorPhone);
 email_field.field.addEventListener("keyup", removeErrorEmail);
+message_field.field.addEventListener("keyup", removeErrorMessage);
 
 submit_button.addEventListener("click", checkAllBeforeSend);
 
+//functions
 function removeErrorName() {
-    document.getElementById(name_field.label).textContent = "";
-    name_field.field.classList.remove(class_incorrect);
     if (name_field.field.value !== "")
         name_field.field.classList.add(class_filled);
     else
         name_field.field.classList.remove(class_filled);
+
+    document.getElementById(name_field.label).textContent = "";
+    name_field.field.classList.remove(class_incorrect);
 }
 
 function removeErrorPhone() {
-    let is_not_empty = phone_field.field.value !== "" && phone_field.field.value!==phone_mask;
-    if (is_not_empty) applyMask();
+    let is_not_empty = phone_field.field.value !== "" && phone_field.field.value !== phone_mask;
+    if (is_not_empty) {
+        phone_field.field.classList.add(class_filled);
+        applyMask();
+    } else
+        phone_field.field.classList.remove(class_filled);
+
     document.getElementById(phone_field.label).textContent = "";
     phone_field.field.classList.remove(class_incorrect);
-    if (is_not_empty)
-        phone_field.field.classList.add(class_filled);
-    else
-        phone_field.field.classList.remove(class_filled);
     checkEmptyPair(phone_field.field, email_field);
 }
 
 function removeErrorEmail() {
-    document.getElementById(email_field.label).textContent = "";
-    email_field.field.classList.remove(class_incorrect);
     if (email_field.field.value !== "")
         email_field.field.classList.add(class_filled);
     else
         email_field.field.classList.remove(class_filled);
+
+    document.getElementById(email_field.label).textContent = "";
+    email_field.field.classList.remove(class_incorrect);
     checkEmptyPair(email_field.field, phone_field);
+}
+
+function removeErrorMessage() {
+    if (message_field.field.value !== "")
+        message_field.field.classList.add(class_filled);
+    else
+        message_field.field.classList.remove(class_filled);
+
+    document.getElementById(message_field.label).textContent = "";
+    message_field.field.classList.remove(class_incorrect);
 }
 
 function checkName() {
@@ -115,22 +151,29 @@ function checkField(field_obj, regexp) {
 }
 
 function checkAllBeforeSend(event) {
-    if (phone_field.field.value === "" && email_field.field.value === "") {
+    event.preventDefault();
+
+    if (name_field.field.value === "") {
+        name_field.field.classList.add(class_incorrect);
+        document.getElementById(name_field.label).textContent = string_for_required;
+    } else if (message_field.field.value === "") {
+        document.getElementById(message_field.label).textContent = string_for_required;
+        message_field.field.classList.add(class_incorrect);
+    } else if (phone_field.field.value === "" && email_field.field.value === "") {
         document.getElementById(email_field.label).textContent = email_field.empty_str;
         document.getElementById(phone_field.label).textContent = phone_field.empty_str;
         email_field.field.classList.add(class_incorrect);
         email_field.field.classList.add(class_empty_pair);
         phone_field.field.classList.add(class_incorrect);
         phone_field.field.classList.add(class_empty_pair);
-        event.preventDefault();
-    } else { //что-то про .reduce
-        let hasIncorrect = false;
-        const listOfFields = document.getElementsByClassName(class_field);
+    } else {
+        let hasIncorrectOrEmpty = Array.from(document.getElementsByClassName(class_field)).reduce((res, field) => {
+            return res || field.classList.contains(class_incorrect) || (field.classList.contains(class_empty_pair));
+        }, false);
 
-        for (let filed of listOfFields) {
-            hasIncorrect = hasIncorrect || filed.classList.contains(class_incorrect);
+        if (!hasIncorrectOrEmpty) {
+            sendForm().then(r => r);
         }
-        if (hasIncorrect) event.preventDefault();
     }
 }
 
@@ -192,5 +235,56 @@ window.onclick = function (event) {
     if (event.target === modal_win) {
         modal_win.style.display = "none";
         modal_btn.style.display = "block";
+    }
+}
+
+async function sendForm() {
+    let today = new Date();
+    let dateTime = today.toISOString();
+
+    const resJson = JSON.stringify({
+        createdAt: dateTime,
+        data: {
+            name: name_field.field.value,
+            phone: phone_field.field.value,
+            email: email_field.field.value,
+            message: message_field.field.value
+        }
+    });
+
+    loader_gif.style.display = "block";
+    submit_button.style.display = "none";
+
+    let response = await fetch("https://617911d8aa7f340017404757.mockapi.io/feedback/req",
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: resJson
+        });
+
+    loader_gif.style.display = "none";
+
+    if (response.ok) {
+        result_span.classList.add(class_success);
+        result_span.textContent = "✓";
+        setTimeout(function () {
+            result_span.className = "";
+            result_span.textContent = "";
+            submit_button.style.display = "block";
+            Array.from(document.getElementsByClassName(class_field)).map((field) => {
+                field.classList.remove(class_filled);
+                return field.value = "";
+            });
+        }, 1000);
+    } else {
+        result_span.classList.add(class_fail);
+        result_span.textContent = "❌";
+        setTimeout(function () {
+            result_span.className = "";
+            result_span.textContent = "";
+            submit_button.style.display = "block";
+        }, 1000);
     }
 }

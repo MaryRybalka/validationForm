@@ -206,10 +206,35 @@ body{
     cursor: pointer;
 }
 
-.filled + .floating-label{
-    transform: translate(0,-1rem) scale(1);
+.filled + .floating-label {
+    transform: translate(0, -1rem) scale(1);
 }
 
-@media screen and (min-width: 750px){
+@media screen and (min-width: 750px) {
 
+}
+
+.loader {
+    display: none;
+    width: 3rem;
+    height: auto;
+}
+
+.result {
+    display: none;
+    margin: 1rem;
+}
+
+.success {
+    color: var(--success-text-color);
+    font-size: 28px;
+    font-weight: bold;
+    margin: 1rem;
+}
+
+.fail {
+    color: var(--error-text-color);
+    font-size: 28px;
+    font-weight: bold;
+    margin: 1rem;
 }

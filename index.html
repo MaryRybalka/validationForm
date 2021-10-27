@@ -31,14 +31,17 @@
         <div class="feedback-form__item big">
             <label for="message" class="label required">Сообщение</label>
             <textarea required id="message" class="field"></textarea>
+            <span class="label incorrect" id="incorrect-message"> </span>
         </div>
         <div class="feedback-form__bottom">
             <p class="privacy-policy">Отправляя форму вы соглашаетесь с
                 <a href="https://cutt.ly/8RbK50j" target="_blank" class="link"> пользовательским соглашением</a> и
                 <a href="https://e-kontur.ru/enquiry/1318/privacy" target="_blank" class="link"> политикой
-                конфиденциальности </a>
+                    конфиденциальности </a>
             </p>
             <input type="submit" id="apply-button" class="apply-button" value="Отправить">
+            <img src="src/loader2.gif" class="loader" id="loader">
+            <span id="result"></span>
         </div>
     </fieldset>
 </form>

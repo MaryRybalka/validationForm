@@ -11,7 +11,7 @@
 <div id="modal-window" class="modal">
     <form class="main-form modal-content">
         <div class="top">
-            <span class="close">&times;</span>
+            <span class="close" id="close-button">&times;</span>
             <h1 class="header">
                 Обратная связь
             </h1>
@@ -36,6 +36,7 @@
             <div class="feedback-form__item modal-item big">
                 <textarea required id="message" class="field modal-field" placeholder=" "></textarea>
                 <label for="message" class="label required floating-label">Сообщение</label>
+                <span class="label incorrect" id="incorrect-message"> </span>
             </div>
             <div class="feedback-form__bottom">
                 <p class="privacy-policy">Отправляя форму вы соглашаетесь с
@@ -44,6 +45,8 @@
                         конфиденциальности </a>
                 </p>
                 <input type="submit" id="apply-button" class="apply-button" value="Отправить">
+                <img src="src/loader2.gif" class="loader" id="loader">
+                <span id="result"></span>
             </div>
         </fieldset>
     </form>

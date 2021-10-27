@@ -134,8 +134,37 @@ body{
 .link:hover,
 .link:focus,
 .field:hover,
-.field:focus{
+.field:focus {
     cursor: pointer;
-} {
-    cursor: pointer;
+}
+
+{
+    cursor: pointer
+;
+}
+
+
+.loader {
+    display: none;
+    width: 3rem;
+    height: auto;
+}
+
+.result {
+    display: none;
+    margin: 1rem;
+}
+
+.success {
+    color: var(--success-text-color);
+    font-size: 28px;
+    font-weight: bold;
+    margin: 1rem;
+}
+
+.fail {
+    color: var(--error-text-color);
+    font-size: 28px;
+    font-weight: bold;
+    margin: 1rem;
 }
